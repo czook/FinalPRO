@@ -4,8 +4,8 @@
 //#include <Windows.h>
 //uncomment one of these includes depending on the computer you're using 
 //(add one if you have something different)
-#include <ncurses/ncurses.h> //lab computers
-//#include<curses.h> //corbin's laptop
+//#include <ncurses/ncurses.h> //lab computers
+#include<curses.h> //corbin's laptop
 
 #define BOARD_LENGTH 10
 #define BOARD_WIDTH 10
@@ -40,7 +40,7 @@ void draw_character(int row, int column, char use)
 }
 
 void draw_string(int row, int column, char *string){
-    mvprintw(column, row, string);
+    mvprintw(row, column, string);
     refresh();
 }
 
@@ -49,7 +49,8 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y){
     board looks like
     X = ship parts
     O = misses from other player
-	1 2 3 4 5 6 7 8 9 10
+    P = position of x and y
+ P	1 2 3 4 5 6 7 8 9 10
     --------------------
  A | * * * * * * * * * *
  B | * * * * * * * * * *
@@ -68,17 +69,26 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y){
     printf("%d\n",gridData[2][3]);
 	*/
 
+    char tmp = 'P'; //placeholder representing starting reference location
+    draw_character(x,y,tmp);
+
+    
     //print border info
     char *temp1 = "1 2 3 4 5 6 7 8 9 10";
 	char *temp2 = "--------------------";
-    draw_string(temp1[], x, y);
-    draw_string(temp2[], x, y + 1);
+    draw_string(y, x + 3,temp1);
+    draw_string(y + 1, x + 3,temp2);
+
+    char *temp3 = " |";
+
+    char empty = '*';
 
     //display everything inside border
-    //offset = TODO
     for(int i = 0; i < BOARD_LENGTH; i++){
+        draw_character(y+2+i,x,65+i);       //print A, B, C, etc
+        draw_string(y+2+i,x+1,temp3);       //print " |"
 		for (int j = 0; j < BOARD_WIDTH; j++) {
-			
+			//print the empty areas
 		}
     }
 }
@@ -110,13 +120,13 @@ void main(){
     for(int i = 0; i < BOARD_LENGTH; i++){
         for(int j = 0; j < BOARD_WIDTH; j++){
             playerGrid[i][j] = 0;
-            computerGrid[i][j] = 
+            computerGrid[i][j] = 0;
         }
     }
 
 	//initial displays
 	displayCurrentBoard(playerGrid, 1, 1);
-	displayCurrentBoard(computerGrid, 1, 1);
+	displayCurrentBoard(computerGrid, 30, 1);
 
 	//Main loop
 	while (1) {
