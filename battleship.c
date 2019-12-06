@@ -59,7 +59,7 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
     X = ship parts
     O = misses from other player
     P = position of x and y
- P	1 2 3 4 5 6 7 8 9 10
+ P  1 2 3 4 5 6 7 8 9 10
     --------------------
  A | * * * * * * * * * *
  B | * * * * * * * * * *
@@ -92,13 +92,31 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
 
     char empty = '*';
 
+    char displayChar = '*';
+
     //display everything inside border
     for(int i = 0; i < BOARD_LENGTH; i++){
         draw_character(y+2+i,x,65+i);       //print A, B, C, etc
         draw_string(y+2+i,x+1,temp3);       //print " |"
 		for (int j = 0; j < BOARD_WIDTH; j++) {
-			//print the empty areas
-		}
+			//print information based on arrays
+
+            //switch to detect current value to print
+            switch(gridData[i][j]){
+                case 0:
+                    displayChar = '*';
+                    break;
+                case 1:
+                    displayChar = 'X';
+                    break;
+                case 2:
+                    displayChar = 'O';
+                    break;
+                default:
+                printf("ERROR IN gridData");
+            }
+            draw_character(y+2+i,x+4+j*2,displayChar);
+		}       
     }
 }
 
