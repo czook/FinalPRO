@@ -13,10 +13,10 @@
 
 #define BOARD_LENGTH 10
 #define BOARD_WIDTH 10
-#define shipChar '$'
-#define shipHit 'X'
-#define shipMiss '0'
-#define blank '*'
+#define SHIP_CHAR '$'
+#define SHIP_HIT 'X'
+#define SHIP_MISS '0'
+#define BLANK '*'
 //structs are used to check if parts of the boats are hit.
 //using int {varible} = 1 or 0 depending if it is true or false
 struct carrier
@@ -104,13 +104,16 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
             //switch to detect current value to print
             switch(gridData[i][j]){
                 case 0:
-                    displayChar = '*';
+                    displayChar = BLANK;
                     break;
                 case 1:
-                    displayChar = 'X';
+                    displayChar = SHIP_CHAR;
                     break;
                 case 2:
-                    displayChar = 'O';
+                    displayChar = SHIP_HIT;
+                    break;
+                case 3:
+                    displayChar = SHIP_MISS;
                     break;
                 default:
                 printf("ERROR IN gridData");
