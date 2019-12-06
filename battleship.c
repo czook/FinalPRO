@@ -118,7 +118,7 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
                 default:
                 printf("ERROR IN gridData");
             }
-            draw_character(y+2+i,x+4+j*2,displayChar);
+            draw_character(y+2+i,x+4+j*2,displayChar); //draw switched character
 		}       
     }
 }
@@ -372,23 +372,26 @@ void main()
     struct ships compShips;
     struct ships playerShips;
 
-    //set everything to 0 (for sanity's sake)
-    for (int i = 0; i < BOARD_LENGTH; i++)
-    {
-        for (int j = 0; j < BOARD_WIDTH; j++)
-        {
+    //set everything to 0 (for sanity's sake) Might not need this
+    for (int i = 0; i < BOARD_LENGTH; i++){
+        for (int j = 0; j < BOARD_WIDTH; j++){
             playerGrid[i][j] = 0;
             computerGrid[i][j] = 0;
         }
     }
 
-	//initial displays
+	//initial displays 
 	displayCurrentBoard(playerGrid, 1, 1);
 	displayCurrentBoard(computerGrid, 30, 1);
 
     //Main loop
-    while (1)
-    {
+    while (1){
+        //place user ships
+
+        //place bot ships
+
+        //loop through player and ship picking locations to shoot
+            //end conditions
     }
 
     //Exit screen
