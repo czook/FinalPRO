@@ -9,7 +9,6 @@
 //uncomment one of these includes depending on the computer you're using
 //(add one if you have something different)
 //#include <ncurses/ncurses.h> //lab computers
-#include<curses.h> //corbin's laptop
 
 #define BOARD_LENGTH 10
 #define BOARD_WIDTH 10
@@ -19,6 +18,7 @@
 #define BLANK '*'
 //structs are used to check if parts of the boats are hit.
 //using int {varible} = 1 or 0 depending if it is true or false
+/*
 struct carrier
 {
     int points[3][2];
@@ -40,6 +40,7 @@ struct ships
     struct patrol p;
     struct boat b;
 };
+*/
 
 void draw_character(int row, int column, char use)
 {
@@ -72,13 +73,20 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
  H | * * * * * * * * * *
  I | * * * * * * * * * *
  J | * * * * * * * * * *
+
+PLACE SHIP (1): (input)  (ex D4)
+
+
+ship types:
+
+
     */
 
     char tmp = 'P'; //placeholder representing starting reference location
     draw_character(y,x,tmp); //can take out later
     
     //print border info
-    char *temp1 = "1 2 3 4 5 6 7 8 9 10";
+    char *temp1 = " 1 2 3 4 5 6 7 8 9 10";
 	char *temp2 = "--------------------";
     draw_string(y, x + 3,temp1);
     draw_string(y + 1, x + 3,temp2);
@@ -114,16 +122,18 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
 		}       
     }
 }
+/*
+void placeShips(int *gridData, struct carrier c, struct patrol p, struct boat b){
+    //
 
-void placeShips(int *gridData, struct carrier c, struct patrol p, struct boat b)
-{
-    //Starting ship placement at [0][0]
-    //int x = 0 y = 0;
     /*
+    //Starting ship placement at [0][0]
+	int x = 0, y = 0;
+    
 	
     //moving the ships on keypress are hopefully FINISHED
     //Still need to check if the ships are on top of each other.
-    (The current numbers(0,7,9) are trying to be the limits of the 10x10 board)
+    //(The current numbers(0,7,9) are trying to be the limits of the 10x10 board)
     //place carrier while loop
     while (1){
         int ch = getch();
@@ -345,55 +355,124 @@ void placeShips(int *gridData, struct carrier c, struct patrol p, struct boat b)
     gridData[y][x] = shipChar;
     displayCurrentBoard(gridData);
     }
-	*/
+	
+}
+*/
+
+
+void placeShip(int gridData[BOARD_LENGTH][BOARD_WIDTH],int x, int y, int shipNum){
+    //ship number is 1,2, or 3
+    switch(shipNum){
+        case 1: //1x1 - boat
+            gridData[x][y] = 1;
+            break;
+        case 2: //2x1 - patrol
+            gridData[x][y] = 1;
+            gridData[x+1][y] = 1;
+            break;
+        case 3: //3x1 - carrier
+            gridData[x][y] = 1;
+            gridData[x+1][y] = 1;
+            gridData[x+2][y] = 1;
+            break;
+    }
+}
+
+int shoot(int gridData[BOARD_LENGTH][BOARD_WIDTH],int x, int y){
+    if(gridData[x][y] == 1){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 void main()
 {
-    //Initialize screen
-    initscr();
-    noecho();
-    cbreak();
-    nodelay(stdscr, TRUE);
-    scrollok(stdscr, TRUE);
+	//Initialize screen
+	initscr();
+	//noecho();
+	//cbreak();
+	//nodelay(stdscr, TRUE);
+	//scrollok(stdscr, TRUE);
+    time_t t;
+	srand((unsigned) time(&t));
 
-    //1 = ship
-    //2 = miss
-    int playerGrid[BOARD_LENGTH][BOARD_WIDTH];
-    int computerGrid[BOARD_LENGTH][BOARD_WIDTH];
-    struct ships compShips;
-    struct ships playerShips;
+	//1 = ship
+	//2 = miss
+	int playerGrid[BOARD_LENGTH][BOARD_WIDTH];
+	int playerGuessGrid[BOARD_LENGTH][BOARD_WIDTH];
+	int computerGrid[BOARD_LENGTH][BOARD_WIDTH];
+	int computerGuessGrid[BOARD_LENGTH][BOARD_LENGTH];
+	//struct ships compShips;
+	//struct ships playerShips;
 
-    //location of displays
-    int playerBoardX = 5;
-    int playerBoardY = 1;
-    int cpuBoardX = 35;
-    int cpuBoardY = 1;
+	//location of displays
+	int playerBoardX = 5;
+	int playerBoardY = 1;
+	int playerGuessX = 35;
+	int playerGuessY = 1;
+	int cpuBoardX = 65;
+	int cpuBoardY = 1;
+	int cpuGuessX = 95;
+	int cpuGuessY = 1;
 
-    //set everything to 0 (for sanity's sake) Might not need this
-    for (int i = 0; i < BOARD_LENGTH; i++){
-        for (int j = 0; j < BOARD_WIDTH; j++){
-            playerGrid[i][j] = 0;
-            computerGrid[i][j] = 0;
-        }
-    }
+    //short flag = 1;
 
-    playerGrid[1][10] = 2;
-    playerGrid[2][4] = 1;
-    playerGrid[9][3] = 1;
+	//set everything to 0 (for sanity's sake) Might not need this
+	for (int i = 0; i < BOARD_LENGTH; i++) {
+		for (int j = 0; j < BOARD_WIDTH; j++) {
+			playerGrid[i][j] = 0;
+			computerGrid[i][j] = 0;
+            playerGuessGrid[i][j] = 0;
+			computerGuessGrid[i][j] = 0;
+		}
+	}
+
+	/* //testing
+	playerGrid[1][10] = 2;
+	playerGrid[2][4] = 1;
+	playerGrid[9][3] = 1;
+	*/
 
 	//initial displays 
 	displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
+	displayCurrentBoard(playerGuessGrid, playerGuessX, playerGuessY);
 	displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY);
+	displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY);
 
-    //Main loop
+	//place user ships
+	char* ch;
+	for (int i = 1; i < 4; i++) {
+		mvprintw(14, 0, "Input where to put your ship %d; Example D4: ", i);
+		getstr(ch);
+
+        placeShip(playerGrid, ch[0]-64-1, ch[1]-48-1, i);
+        //mvprintw(20,0,"%d, %d ",ch[0]-64-1,ch[1]-48-1); //testing
+	
+        mvprintw(14, 44, "  "); //remove previous input
+        //update board every time
+        displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
+	}
+
+	mvprintw(14, 0, "                                             ");
+    
+    //place bot ships (randomly)
+    for(int j = 1; j < 4; j++){
+        placeShip(computerGrid,rand()%10,rand()%10,j);
+        displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY);
+    }
+    
+    //Main loop (game start)
     while (1){
-        //place user ships
-
-        //place bot ships
-
         //loop through player and ship picking locations to shoot
-            //end conditions
+        
+        //player shoot
+        mvprintw(14,0, "Pick a location to shoot: ");
+        getstr(ch);
+        
+        //if(shoot(computerGrid,ch[0]-64-1,ch[1]-48-1)){ //if it hits
+            
+        //}
     }
 
     //Exit screen
