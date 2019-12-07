@@ -56,9 +56,10 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
 {
     /*
     board looks like
-    X = ship parts
+    $ = ship
+    X = ship hit
     O = misses from other player
-    P = position of x and y
+    P = position of x and y (for testing)
  P  1 2 3 4 5 6 7 8 9 10
     --------------------
  A | * * * * * * * * * *
@@ -71,16 +72,10 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
  H | * * * * * * * * * *
  I | * * * * * * * * * *
  J | * * * * * * * * * *
-
-
-    printf("%d\n",gridData[1][1]);
-    printf("%d\n",gridData[0][1]);
-    printf("%d\n",gridData[2][3]);
-	*/
+    */
 
     char tmp = 'P'; //placeholder representing starting reference location
-    draw_character(x,y,tmp);
-
+    draw_character(y,x,tmp); //can take out later
     
     //print border info
     char *temp1 = "1 2 3 4 5 6 7 8 9 10";
@@ -90,17 +85,14 @@ void displayCurrentBoard(int gridData[BOARD_LENGTH][BOARD_WIDTH], int x, int y)
 
     char *temp3 = " |";
 
-    char empty = '*';
-
-    char displayChar = '*';
+    char displayChar = BLANK;
 
     //display everything inside border
     for(int i = 0; i < BOARD_LENGTH; i++){
         draw_character(y+2+i,x,65+i);       //print A, B, C, etc
         draw_string(y+2+i,x+1,temp3);       //print " |"
 		for (int j = 0; j < BOARD_WIDTH; j++) {
-			//print information based on arrays
-
+	        //print information based on arrays
             //switch to detect current value to print
             switch(gridData[i][j]){
                 case 0:
@@ -372,6 +364,12 @@ void main()
     struct ships compShips;
     struct ships playerShips;
 
+    //location of displays
+    int playerBoardX = 5;
+    int playerBoardY = 1;
+    int cpuBoardX = 35;
+    int cpuBoardY = 1;
+
     //set everything to 0 (for sanity's sake) Might not need this
     for (int i = 0; i < BOARD_LENGTH; i++){
         for (int j = 0; j < BOARD_WIDTH; j++){
@@ -380,9 +378,13 @@ void main()
         }
     }
 
+    playerGrid[1][10] = 2;
+    playerGrid[2][4] = 1;
+    playerGrid[9][3] = 1;
+
 	//initial displays 
-	displayCurrentBoard(playerGrid, 1, 1);
-	displayCurrentBoard(computerGrid, 30, 1);
+	displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
+	displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY);
 
     //Main loop
     while (1){
