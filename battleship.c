@@ -458,16 +458,22 @@ void main()
             continue;
         }
 
-        //if user enters a letter not within range (64 to 75)
+        //if user enters a letter not within range (65 to 74)
         if(!(ch[0] > 64 && ch[0] < 75)){
             mvprintw(14, 44, "    "); //remove previous input
             i -= 1;
             continue;
         }
 
-        //48 to 56
-        //if user enters a number not within range (1 to 9)
-        if(!(ch[1] > 48 && ch[1] < 56)){
+        //if user enters a number not within range (49 to 57)
+        if(!(ch[1] > 48 && ch[1] < 58)){
+            mvprintw(14, 44, "    "); //remove previous input
+            i -=1;
+            continue;
+        }
+
+        //if user enters a two digit number that isn't 10
+        if(!ch[2] || ch[2] != '0'){
             mvprintw(14, 44, "    "); //remove previous input
             i -=1;
             continue;
@@ -507,9 +513,9 @@ void main()
         mvprintw(14,0, "Pick a location to shoot: ");
         getstr(ch);
         
-        //if(shoot(computerGrid,ch[0]-64-1,ch[1]-48-1)){ //if it hits
+        if(shoot(computerGrid,ch[0]-64-1,ch[1]-48-1)){ //if it hits
             
-        //}
+        }
     }
 
     //Exit screen
