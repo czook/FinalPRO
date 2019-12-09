@@ -446,10 +446,20 @@ void main()
 		mvprintw(14, 0, "Input where to put your ship %d; Example D4: ", i);
 		getstr(ch);
 
-        placeShip(playerGrid, ch[0]-64-1, ch[1]-48-1, i);
+        placeShip(playerGrid,9,8,1);
         //mvprintw(20,0,"%d, %d ",ch[0]-64-1,ch[1]-48-1); //testing
+
+        mvprintw(21,0,"%c",ch[0]);
+        mvprintw(22,0,"%c",ch[1]);
+        mvprintw(23,0,"%c",ch[2]);
+        mvprintw(24,0,"%c",ch[3]);
+        if(ch[1] == '1' && ch[2] == '0'){ //when user enters 10 (quick fix)
+            placeShip(playerGrid, ch[0]-64-1, 9, i);
+        }else{ //otherwise print normally
+            placeShip(playerGrid, ch[0]-64-1, ch[1]-48-1, i); 
+        }
 	
-        mvprintw(14, 44, "  "); //remove previous input
+        mvprintw(14, 44, "    "); //remove previous input
         //update board every time
         displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
 	}
