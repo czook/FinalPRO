@@ -360,22 +360,26 @@ void placeShips(int *gridData, struct carrier c, struct patrol p, struct boat b)
 */
 
 
-void placeShip(int gridData[BOARD_LENGTH][BOARD_WIDTH],int x, int y, int shipNum){
+int placeShip(int gridData[BOARD_LENGTH][BOARD_WIDTH],int x, int y, int shipNum){
     //ship number is 1,2, or 3
     switch(shipNum){
         case 1: //1x1 - boat
+            if(gridData[x][y] == 1) return 0; //if already a boat don't do anything
             gridData[x][y] = 1;
             break;
         case 2: //2x1 - patrol
+            if(gridData[x][y] == 1 || gridData[x+1][y] == 1) return 0;
             gridData[x][y] = 1;
             gridData[x+1][y] = 1;
             break;
         case 3: //3x1 - carrier
+            if(gridData[x][y] == 1 || gridData[x+1][y] == 1 || gridData[x+2][y] == 1) return 0;
             gridData[x][y] = 1;
             gridData[x+1][y] = 1;
             gridData[x+2][y] = 1;
             break;
     }
+    return 1;
 }
 
 int shoot(int gridData[BOARD_LENGTH][BOARD_WIDTH],int x, int y){
@@ -440,19 +444,47 @@ void main()
 	displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY);
 	displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY);
 
+    int placeX, placeY;
+
 	//place user ships
 	char* ch;
 	for (int i = 1; i < 4; i++) {
 		mvprintw(14, 0, "Input where to put your ship %d; Example D4: ", i);
 		getstr(ch);
 
-        //mvprintw(20,0,"%d, %d ",ch[0]-64-1,ch[1]-48-1); //testing
-
-        if(ch[1] == '1' && ch[2] == '0'){ //when user enters 10 (quick fix)
-            placeShip(playerGrid, ch[0]-64-1, 9, i);
-        }else{ //otherwise print normally
-            placeShip(playerGrid, ch[0]-64-1, ch[1]-48-1, i); 
+        //if user enters nothing
+        if(!ch[0]){
+            i -= 1;
+            continue;
         }
+
+        //if user enters a letter not within range (64 to 75)
+        if(!(ch[0] > 64 && ch[0] < 75)){
+            mvprintw(14, 44, "    "); //remove previous input
+            i -= 1;
+            continue;
+        }
+
+        //48 to 56
+        //if user enters a number not within range (1 to 9)
+        if(!(ch[1] > 48 && ch[1] < 56)){
+            mvprintw(14, 44, "    "); //remove previous input
+            i -=1;
+            continue;
+        }
+
+        //mvprintw(20,0,"%d, %d ",ch[0]-64-1,ch[1]-48-1); //testing
+        if(ch[1] == '1' && ch[2] == '0'){ //when user enters 10 (quick fix)
+            placeX = ch[0]-64-1;
+            placeY = 9;
+        }else{ //otherwise print normally
+            placeX = ch[0]-64-1;
+            placeY = ch[1]-48-1;
+        }
+
+        if(!placeShip(playerGrid, placeX, placeY, i)){//if it failes to place
+            i = i - 1;  //redo last step
+        } 
 	
         mvprintw(14, 44, "    "); //remove previous input
         //update board every time
