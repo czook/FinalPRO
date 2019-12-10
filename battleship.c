@@ -17,8 +17,6 @@
 #define SHIP_HIT 'X'
 #define SHIP_MISS '0'
 #define BLANK '*'
-//structs are used to check if parts of the boats are hit.
-//using int {varible} = 1 or 0 depending if it is true or false
 
 void draw_character(int row, int column, char use)
 {
@@ -87,7 +85,7 @@ ship types:
                     displayChar = SHIP_MISS;
                     break;
                 default:
-                printf("ERROR IN gridData");
+                printf("ERROR in gridData");
             }
             draw_character(y+2+i,x+4+j*2,displayChar); //draw switched character
 		}       
@@ -95,7 +93,7 @@ ship types:
 }
 
 int placeShip(int gridData[BOARD_LENGTH][BOARD_WIDTH],int x, int y, int shipNum){
-    //ship number is 1,2, or 3
+    //ship number size is 1,2, or 3
     switch(shipNum){
         case 1: //1x1 - boat
             if(gridData[x][y] == 1) return 0; //if already a boat don't do anything
@@ -291,15 +289,6 @@ void main()
 		displayCurrentBoard(playerGuessGrid, playerGuessX, playerGuessY);
 		//displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
 		//displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
-
-		/*
-		if (playerScore == 6) {
-			mvprintw(20, 0, "You Win!");
-		}
-		else if (computerScore == 6) {
-			mvprintw(20, 0, "The Computer Beat You :(");
-		}
-		*/
     }
 
     //Exit screen
