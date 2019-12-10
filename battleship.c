@@ -13,9 +13,9 @@
 
 #define BOARD_LENGTH 10
 #define BOARD_WIDTH 10
-#define SHIP_CHAR '$'
+#define SHIP_CHAR '0'
 #define SHIP_HIT 'X'
-#define SHIP_MISS '0'
+#define SHIP_MISS '$'
 #define BLANK '*'
 
 void draw_character(int row, int column, char use)
@@ -184,8 +184,8 @@ void main()
 	//initial displays 
 	displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
 	displayCurrentBoard(playerGuessGrid, playerGuessX, playerGuessY);
-	//displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
-	//displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
+	displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
+	displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
 
     int placeX, placeY;
 
@@ -224,7 +224,7 @@ void main()
             j -= 1;
             continue;
         }
-        //displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
+        displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
     }
     
 	int playerScore = 0; //Score 1-6
@@ -264,8 +264,8 @@ void main()
 		
 		displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
 		displayCurrentBoard(playerGuessGrid, playerGuessX, playerGuessY);
-		//displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
-		//displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
+		displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
+		displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
 
         //bot guessing
         while(1){
@@ -287,8 +287,8 @@ void main()
         }
 		displayCurrentBoard(playerGrid, playerBoardX, playerBoardY);
 		displayCurrentBoard(playerGuessGrid, playerGuessX, playerGuessY);
-		//displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
-		//displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
+		displayCurrentBoard(computerGrid, cpuBoardX, cpuBoardY); //Comment when actually playing
+		displayCurrentBoard(computerGuessGrid, cpuGuessX, cpuGuessY); //Comment when actually playing
     }
 
     //Exit screen
