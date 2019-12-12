@@ -191,6 +191,7 @@ void main()
 
 	//place user ships
 	char* ch;
+    ch = malloc(3);
 	for (int i = 1; i < 4; i++) {
 		mvprintw(14, 0, "Input where to put your ship %d; Example D4: ", i);
 		getstr(ch); //Gets input from the player's keyboard
