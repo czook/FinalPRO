@@ -1,13 +1,6 @@
 # FinalPRO
 Contact Info
 
-Corbin Kems: crkems@iastate.edu | 515-468-9593 (text me)
-
-
-
-
-
-
 The Game
 
 Scenario: You are to create a battleship game that will be played between you and the
